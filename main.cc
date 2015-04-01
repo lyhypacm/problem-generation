@@ -1,10 +1,57 @@
 #include "generator.h"
 #include "verifier.h"
+#include "solver.h"
 #include <cassert>
+#include <unistd.h>
 
 const int BUFF_SIZE = 1024;
 
 char input_file_name[BUFF_SIZE], output_file_name[BUFF_SIZE];
+bool isChild;
+
+bool generate_verify_and_run_data(size_t seed, int case_id, const char* data_folder) {
+  FILE *input;
+
+  sprintf(input_file_name, "%s/%04d.in", data_folder, case_id);
+  sprintf(output_file_name, "%s/%04d.out", data_folder, case_id);
+
+  // generate
+  input = fopen(input_file_name, "w");
+  generator::generate(seed, input);
+  fclose(input);
+
+  // verify
+  input = fopen(input_file_name, "r");
+  bool verifier_result = verifier::verify(input);
+  fclose(input);
+  if (!verifier_result) {
+    return false;
+  }
+
+  // run
+  pid_t pid = fork();
+  if (pid < -1) {
+    return false;
+  } else if (pid == 0) {
+    isChild = true;
+    freopen(input_file_name, "r", stdin);
+    freopen(output_file_name, "w", stdout);
+    solver::sol();
+    fclose(stdin);
+    fclose(stdout);
+    return true;
+  } else {
+    int status;
+    isChild = false;
+    while (waitpid(pid, &status, 0) == -1) {
+      // wait
+    }
+    if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+      return false;
+    }
+    return true;
+  }
+}
 
 // @args1 - seed
 // @args2 - case number
@@ -16,30 +63,14 @@ int main(int argc, char** argv) {
   assert(case_id >= 1 && case_id <= 9999);
   const char* data_folder = argv[3];
 
-  sprintf(input_file_name, "%s/%04d.in", data_folder, case_id);
-  FILE* input = fopen(input_file_name, "w");
-  sprintf(output_file_name, "%s/%04d.out", data_folder, case_id);
-  FILE* output = fopen(output_file_name, "w");
-
-  generator::generate(seed, input, output);
-
-  fclose(input);
-  fclose(output);
-
-  input = fopen(input_file_name, "r");
-  output = fopen(output_file_name, "r");
-
-  bool verifier_result = verifier::verify(input, output);
-
-  fclose(input);
-  fclose(output);
-
-  if (verifier_result) {
-    fprintf(stderr, "[\u001b[0;32mSUCCESS\u001b[m] generate test case #%d.\n", case_id);
+  if (generate_verify_and_run_data(seed, case_id, data_folder)) {
+    if (!isChild) {
+      fprintf(stderr, "[\u001b[0;32mSUCCESS\u001b[m] generate test case #%d.\n", case_id);
+    }
+    return 0;
   } else {
     fprintf(stderr, "[\u001b[1;31mFAILED\u001b[] generate test case #%d.\n", case_id);
+    return 1;
   }
-
-  return 0;
 }
 

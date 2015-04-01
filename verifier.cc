@@ -3,7 +3,7 @@
 
 namespace verifier {
 
-bool verify(FILE* input, FILE* output) {
+bool verify(FILE* input) {
   int a, b;
   ASSERT(fscanf(input, "%d%d", &a, &b) == 2);
   ASSERT(fscanf(input, "%*d") == EOF);

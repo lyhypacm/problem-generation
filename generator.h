@@ -9,7 +9,7 @@ extern "C" {
 #endif
 namespace generator {
 
-int generate(size_t seed, FILE* input, FILE* output);
+int generate(size_t seed, FILE* input);
 
 }
 

@@ -2,7 +2,7 @@ CPP=g++
 CPP_FLAGS=-O3 -Wall -std=gnu++0x -DONLINE_JUDGE
 LD_FLAGS=-O3 -Wall -std=gnu++0x -DONLINE_JUDGE
 TARGETS=generator.bin
-GENERATOR_DEPS=main.o libgenerator.so libverifier.so
+GENERATOR_DEPS=main.o libgenerator.so libverifier.so libsolver.so
 DATA_COUNT=100
 DATA_FOLDER=data
 all: ${TARGETS}
