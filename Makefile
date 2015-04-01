@@ -2,7 +2,7 @@ CPP=g++
 CPP_FLAGS=-O3 -w -static -Wall -std=gnu++0x
 LD_FLAGS=-O3 -w -Wall -std=gnu++0x
 TARGETS=generator.bin
-GENERATOR_DEPS=main.o generator.o
+GENERATOR_DEPS=main.o generator.o verifier.o
 DATA_COUNT=100
 DATA_FOLDER=data
 all: ${TARGETS}

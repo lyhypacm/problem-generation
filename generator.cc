@@ -13,6 +13,8 @@ int generate(size_t seed, FILE* input, FILE* output) {
   int a = next_int(), b = next_int();
   fprintf(input, "%d %d\n", a, b);
   fprintf(output, "%d\n", a + b);
+
+  return 0;
 }
 
 }
