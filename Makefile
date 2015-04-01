@@ -4,7 +4,7 @@ LD_FLAGS=-O3 -Wall -std=gnu++0x -DONLINE_JUDGE
 TARGETS=generator.bin
 GENERATOR_DEPS=main.o libgenerator.so libverifier.so libsolver.so
 TEST_GENERATOR_DEPS=main.o libtest.so
-DATA_COUNT=100
+DATA_COUNT=999
 DATA_FOLDER=data
 all: ${TARGETS}
 
@@ -12,7 +12,7 @@ generate_all: generator.bin
 	seed=$$RANDOM; \
 	for i in `seq 1 ${DATA_COUNT}`; \
 	do \
-		./generator.bin $$RANDOM $$i ${DATA_FOLDER} ; \
+		./generator.bin $$seed $$i ${DATA_FOLDER} ; \
 		seed=`expr $$seed + 1`; \
 	done
 
@@ -20,7 +20,7 @@ test: test-generator.bin
 	seed=$$RANDOM; \
 	for i in `seq 1 ${DATA_COUNT}`; \
 	do \
-		./test-generator.bin $$RANDOM $$i ${DATA_FOLDER} ; \
+		./test-generator.bin $$seed $$i ${DATA_FOLDER} ; \
 		seed=`expr $$seed + 1`; \
 	done
 
