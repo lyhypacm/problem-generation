@@ -2,6 +2,8 @@
 #include "verifier.h"
 #include "solver.h"
 #include <cassert>
+#include <cstdlib>
+#include <sys/wait.h>
 #include <unistd.h>
 
 const int BUFF_SIZE = 1024;
