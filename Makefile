@@ -24,5 +24,5 @@ generator.bin: ${GENERATOR_DEPS}
 	${CPP} $< -c -o $@ ${CPP_FLAGS}
 
 clean:
-	rm -f *.o *.so *.in *.out ${TARGETS} ${DATA_FOLDER}/*
+	rm -f *.o *.so *.in *.out *.bin ${DATA_FOLDER}/*
 
