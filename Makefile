@@ -1,6 +1,6 @@
 CPP=g++
-CPP_FLAGS=-O3 -w -Wall -std=gnu++0x -DONLINE_JUDGE
-LD_FLAGS=-O3 -w -Wall -std=gnu++0x -DONLINE_JUDGE
+CPP_FLAGS=-O3 -Wall -std=gnu++0x -DONLINE_JUDGE
+LD_FLAGS=-O3 -Wall -std=gnu++0x -DONLINE_JUDGE
 TARGETS=generator.bin
 GENERATOR_DEPS=main.o libgenerator.so libverifier.so
 DATA_COUNT=100
