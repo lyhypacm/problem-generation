@@ -4,4 +4,7 @@ data/*
 *.s
 *.bin
 *.so
+/generator.cc
+/verifier.cc
+/solver.cc
 
