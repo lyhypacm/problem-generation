@@ -33,7 +33,7 @@ bool verify(FILE* input) {
 
 namespace generator {
 
-int generate(size_t seed, FILE* input) {
+int generate(int case_id, size_t seed, FILE* input) {
   std::default_random_engine engine(seed);
   std::uniform_int_distribution<int> distribution(1, 10);
 

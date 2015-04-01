@@ -17,7 +17,7 @@ bool generate_verify_and_run_data(size_t seed, int case_id, const char* data_fol
 
   // generate
   input = fopen(input_file_name, "w");
-  generator::generate(seed, input);
+  generator::generate(case_id, seed, input);
   fclose(input);
 
   // verify
@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
     }
     return 0;
   } else {
-    fprintf(stderr, "[\u001b[1;31mFAILED\u001b[] generate test case #%d.\n", case_id);
+    fprintf(stderr, "[\u001b[1;31mFAILED\u001b[m] generate test case #%d.\n", case_id);
     return 1;
   }
 }
