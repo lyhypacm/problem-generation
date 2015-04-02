@@ -5,7 +5,7 @@ What you need to do is write the files mentioned below and compile them into .o 
 
 ### Files added
   - `generator.cc`: a implmentation of generator.h to generate input files.
-  - `verifier.cc`: a implementation of verifier.h to verify input files are legal or not.
+  - `verifier.cc`: a implementation of verifier.h to verify input/output files are legal or not.
   - `solver.cc`: a implementation of solver.h to generate output files.
 
 ### Usage
