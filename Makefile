@@ -1,16 +1,19 @@
 CPP ?= g++
-CPP_FLAGS=-O3 -Wall -std=gnu++0x -DONLINE_JUDGE
-LD_FLAGS=-O3 -Wall -std=gnu++0x -DONLINE_JUDGE
-TARGETS=generator.bin
-ifeq ($(OS),Windows_NT)
-GENERATOR_DEPS=main.o generator.dll verifier.dll solver.dll
-TEST_GENERATOR_DEPS=main.o test.dll
+CPP_FLAGS ?= -O3 -Wall -std=gnu++0x -DONLINE_JUDGE -I.
+LD_FLAGS ?= -O3 -Wall -std=gnu++0x -DONLINE_JUDGE
+USER_LIBRARY_PATH ?= .
+TARGETS = generator.bin
+ifeq ($(OS), Windows_NT)
+GENERATOR_DEPS = main.o ${USER_LIBRARY_PATH}/generator.dll \
+								 ${USER_LIBRARY_PATH}/verifier.dll ${USER_LIBRARY_PATH}/solver.dll
+TEST_GENERATOR_DEPS = main.o test.dll
 else
-GENERATOR_DEPS=main.o libgenerator.so libverifier.so libsolver.so
-TEST_GENERATOR_DEPS=main.o libtest.so
+GENERATOR_DEPS = main.o ${USER_LIBRARY_PATH}/libgenerator.so \
+								 ${USER_LIBRARY_PATH}/libverifier.so ${USER_LIBRARY_PATH}/libsolver.so
+TEST_GENERATOR_DEPS = main.o libtest.so
 endif
-DATA_COUNT=100
-DATA_FOLDER=data
+DATA_COUNT ?= 100
+DATA_FOLDER ?= data
 all: ${TARGETS}
 
 generate_all: generator.bin
@@ -39,7 +42,10 @@ test-generator.bin: ${TEST_GENERATOR_DEPS}
 	${CPP} main.o -o $@ ${LD_FLAGS} -L. -ltest
 
 generator.bin: ${GENERATOR_DEPS}
-	${CPP} main.o -o $@ ${LD_FLAGS} -L. -lgenerator -lverifier -lsolver
+	${CPP} main.o -o $@ ${LD_FLAGS} -L${USER_LIBRARY_PATH} -lgenerator -lverifier -lsolver
+
+${USER_LIBRARY_PATH}/%.o: %.cc
+	${CPP} $< -c -o $@ ${CPP_FLAGS}
 
 %.o: %.cc
 	${CPP} $< -c -o $@ ${CPP_FLAGS}
