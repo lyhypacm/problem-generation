@@ -24,7 +24,7 @@ bool generate_verify_and_run_data(size_t seed, int case_id, const char* data_fol
 
   // verify input
   input = fopen(input_file_name, "r");
-  bool verifier_result = verifier::verify_input(input);
+  bool verifier_result = verifier::verify_input(case_id, input);
   fclose(input);
   if (!verifier_result) {
     return false;
@@ -55,7 +55,7 @@ bool generate_verify_and_run_data(size_t seed, int case_id, const char* data_fol
 
   // verify output
   output = fopen(output_file_name, "r");
-  verifier_result = verifier::verify_output(output);
+  verifier_result = verifier::verify_output(case_id, output);
   fclose (output);
   if (!verifier_result) {
     return false;
