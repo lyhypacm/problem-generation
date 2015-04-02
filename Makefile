@@ -6,29 +6,19 @@ TARGETS = generator.bin
 ifeq ($(OS), Windows_NT)
 GENERATOR_DEPS = main.o ${USER_LIBRARY_PATH}/generator.dll \
 								 ${USER_LIBRARY_PATH}/verifier.dll ${USER_LIBRARY_PATH}/solver.dll
-TEST_GENERATOR_DEPS = main.o tests/generator.dll tests/verifier.dll tests/solver.dll
 else
 GENERATOR_DEPS = main.o ${USER_LIBRARY_PATH}/libgenerator.so \
 								 ${USER_LIBRARY_PATH}/libverifier.so ${USER_LIBRARY_PATH}/libsolver.so
-TEST_GENERATOR_DEPS = main.o tests/libgenerator.so tests/libverifier.so tests/libsolver.so
 endif
 DATA_COUNT ?= 100
 DATA_FOLDER ?= data
 all: ${TARGETS}
 
-generate_all: generator.bin
+generate: generator.bin
 	seed=$$RANDOM; \
 	for i in `seq 1 ${DATA_COUNT}`; \
 	do \
 		./generator.bin $$seed $$i ${DATA_FOLDER} ; \
-		seed=`expr $$seed + 1`; \
-	done
-
-test: test-generator.bin
-	seed=$$RANDOM; \
-	for i in `seq 1 ${DATA_COUNT}`; \
-	do \
-		./test-generator.bin $$seed $$i ${DATA_FOLDER} ; \
 		seed=`expr $$seed + 1`; \
 	done
 
@@ -37,9 +27,6 @@ lib%.so: %.o
 
 %.dll: %.o
 	${CPP} $< -o $@ -shared -fPIC ${CPP_FLAGS}
-
-test-generator.bin: ${TEST_GENERATOR_DEPS}
-	${CPP} main.o -o $@ ${LD_FLAGS} -Ltests -lgenerator -lverifier -lsolver
 
 generator.bin: ${GENERATOR_DEPS}
 	${CPP} main.o -o $@ ${LD_FLAGS} -L${USER_LIBRARY_PATH} -lgenerator -lverifier -lsolver
@@ -51,5 +38,6 @@ ${USER_LIBRARY_PATH}/%.o: %.cc
 	${CPP} $< -c -o $@ ${CPP_FLAGS}
 
 clean:
-	rm -f *.dll *.o *.so *.in *.out *.bin ${DATA_FOLDER}/* tests/*.so tests/*.dll
+	rm -f *.dll *.o *.so *.in *.out *.bin ${DATA_FOLDER}/* \
+		${USER_LIBRARY_PATH}/*.so ${USER_LIBRARY_PATH}/*.dll
 

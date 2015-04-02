@@ -16,13 +16,13 @@ make generate_all
 
 Also, you can add some make variables before make.
 ```
-CPP=clang++ make generate_all
+USER_LIBRARY_PATH=tests make generate_all
 ```
 
 ### Mkae targets
   - `all` will build the generator binary.
-  - `generate_all` will generate 100 test cases in `data` folder(the 
-data count and data folder is defined in `Makefile`).
+  - `generate` will generate 100 test cases in `data` folder(the data count and
+data folder is defined in `Makefile`).
   - `test`: run integration test in current platform.
 
 ### Make variables
