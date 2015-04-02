@@ -11,19 +11,18 @@ What you need to do is write the files mentioned below and compile them into .o 
 ### Usage
 Run the command line below to build your own generator.
 ```
-make generate_all
+make test
 ```
 
 Also, you can add some make variables before make.
 ```
-USER_LIBRARY_PATH=tests make generate_all
+USER_LIBRARY_PATH=tests make test
 ```
 
 ### Mkae targets
   - `all` will build the generator binary.
-  - `generate` will generate 100 test cases in `data` folder(the data count and
+  - `test` will generate 10 test cases in `data` folder(the test case id and
 data folder is defined in `Makefile`).
-  - `test`: run integration test in current platform.
 
 ### Make variables
   - `CPP`: the compiler to build this library.

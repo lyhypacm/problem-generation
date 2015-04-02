@@ -11,11 +11,11 @@ GENERATOR_DEPS = main.o ${USER_LIBRARY_PATH}/libgenerator.so \
 								 ${USER_LIBRARY_PATH}/libverifier.so ${USER_LIBRARY_PATH}/libsolver.so
 endif
 DATA_BEGIN ?= 1
-DATA_END ?= 100
+DATA_END ?= 10
 DATA_FOLDER ?= data
 all: ${TARGETS}
 
-generate: generator.bin
+test: generator.bin
 	seed=$$RANDOM; \
 	i=${DATA_BEGIN}; \
 	for (( ; ; )); \
