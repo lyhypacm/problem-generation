@@ -7,7 +7,13 @@
 extern "C" {
 #endif
 
-#define ASSERT(x) { if (!(x)) return false; }
+#define ASSERT_2(x, line) { \
+  if (!(x)) { \
+    fprintf(stderr, "Verification failed at %d\n", (int) (line)); \
+    return false; \
+  } \
+}
+#define ASSERT(x) ASSERT_2((x), __LINE__)
 
 namespace verifier {
 

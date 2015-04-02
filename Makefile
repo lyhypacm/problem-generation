@@ -16,10 +16,14 @@ all: ${TARGETS}
 
 generate: generator.bin
 	seed=$$RANDOM; \
-	for i in `seq 1 ${DATA_COUNT}`; \
+	i=1; \
+	for (( ; ; )); \
 	do \
-		./generator.bin $$seed $$i ${DATA_FOLDER} ; \
+		if [[ $$i -gt ${DATA_COUNT} ]]; then break; fi; \
+		./generator.bin $$seed $$i ${DATA_FOLDER}; \
+		exit_code=$$? \
 		seed=`expr $$seed + 1`; \
+		if [[ $$exit_code -eq 0 ]]; then i=`expr $$i + 1`; fi; \
 	done
 
 lib%.so: %.o
