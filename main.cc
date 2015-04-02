@@ -12,7 +12,7 @@ char input_file_name[BUFF_SIZE], output_file_name[BUFF_SIZE];
 bool isChild;
 
 bool generate_verify_and_run_data(size_t seed, int case_id, const char* data_folder) {
-  FILE *input;
+  FILE *input, *output;
 
   sprintf(input_file_name, "%s/%04d.in", data_folder, case_id);
   sprintf(output_file_name, "%s/%04d.out", data_folder, case_id);
@@ -22,9 +22,9 @@ bool generate_verify_and_run_data(size_t seed, int case_id, const char* data_fol
   generator::generate(case_id, seed, input);
   fclose(input);
 
-  // verify
+  // verify input
   input = fopen(input_file_name, "r");
-  bool verifier_result = verifier::verify(input);
+  bool verifier_result = verifier::verify_input(input);
   fclose(input);
   if (!verifier_result) {
     return false;
@@ -51,8 +51,17 @@ bool generate_verify_and_run_data(size_t seed, int case_id, const char* data_fol
     if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
       return false;
     }
-    return true;
   }
+
+  // verify output
+  output = fopen(output_file_name, "r");
+  verifier_result = verifier::verify_output(output);
+  fclose (output);
+  if (!verifier_result) {
+    return false;
+  }
+
+  return true;
 }
 
 // @args1 - seed

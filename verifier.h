@@ -17,7 +17,8 @@ extern "C" {
 
 namespace verifier {
 
-bool verify(FILE* input);
+bool verify_input(FILE* input);
+bool verify_output(FILE* output);
 
 }
 
