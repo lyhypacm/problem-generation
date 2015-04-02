@@ -30,6 +30,7 @@ data folder is defined in `Makefile`).
   - `CPP_FLAGS`: the compile flag to compile source code.
   - `LD_FLAGS`: the link flags to link user library and main library into runable file.
   - `USER_LIBRARY_PATH`: the path user library source codes located.
-  - `DATA_COUNT`: the number of test cases to be generated.
+  - `DATA_BEGIN`: the begin test case id to be generated.
+  - `DATA_END`: the end test case id(included) to be generated.
   - `DATA_FOLDER`: the location generated files located.
 

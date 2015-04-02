@@ -10,16 +10,17 @@ else
 GENERATOR_DEPS = main.o ${USER_LIBRARY_PATH}/libgenerator.so \
 								 ${USER_LIBRARY_PATH}/libverifier.so ${USER_LIBRARY_PATH}/libsolver.so
 endif
-DATA_COUNT ?= 100
+DATA_BEGIN ?= 1
+DATA_END ?= 100
 DATA_FOLDER ?= data
 all: ${TARGETS}
 
 generate: generator.bin
 	seed=$$RANDOM; \
-	i=1; \
+	i=${DATA_BEGIN}; \
 	for (( ; ; )); \
 	do \
-		if [[ $$i -gt ${DATA_COUNT} ]]; then break; fi; \
+		if [[ $$i -gt ${DATA_END} ]]; then break; fi; \
 		./generator.bin $$seed $$i ${DATA_FOLDER}; \
 		exit_code=$$? \
 		seed=`expr $$seed + 1`; \
