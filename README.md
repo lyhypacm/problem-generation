@@ -21,15 +21,15 @@ CPP=clang++ make generate_all
 
 ### Mkae targets
   - `all` will build the generator binary.
-  - `generate\_all` will generate 100 test cases in `data` folder(the 
+  - `generate_all` will generate 100 test cases in `data` folder(the 
 data count and data folder is defined in `Makefile`).
   - `test`: run integration test in current platform.
 
 ### Make variables
   - `CPP`: the compiler to build this library.
-  - `CPP\_FLAGS`: the compile flag to compile source code.
-  - `LD\_FLAGS`: the link flags to link user library and main library into runable file.
-  - `USER\_LIBRARY\_PATH`: the path user library source codes located.
-  - `DATA\_COUNT`: the number of test cases to be generated.
-  - `DATA\_FOLDER`: the location generated files located.
+  - `CPP_FLAGS`: the compile flag to compile source code.
+  - `LD_FLAGS`: the link flags to link user library and main library into runable file.
+  - `USER_LIBRARY_PATH`: the path user library source codes located.
+  - `DATA_COUNT`: the number of test cases to be generated.
+  - `DATA_FOLDER`: the location generated files located.
 
