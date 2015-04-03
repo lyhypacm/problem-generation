@@ -16,7 +16,7 @@ DATA_FOLDER ?= ${USER_LIBRARY_PATH}/data
 all: ${TARGETS}
 
 test: generator.bin
-	mkdir -p ${DATA_FOLDER}; \
+	@mkdir -p ${DATA_FOLDER}; \
 	seed=$$RANDOM; \
 	i=${DATA_BEGIN}; \
 	for (( ; ; )); \
@@ -27,6 +27,9 @@ test: generator.bin
 		seed=`expr $$seed + 1`; \
 		if [[ $$exit_code -eq 0 ]]; then i=`expr $$i + 1`; fi; \
 	done
+
+zip:
+	zip data.zip ${DATA_FOLDER}/*.in ${DATA_FOLDER}/*.out
 
 lib%.so: %.o
 	${CPP} $< -o $@ -shared -fPIC ${CPP_FLAGS}
@@ -44,6 +47,6 @@ ${USER_LIBRARY_PATH}/%.o: %.cc
 	${CPP} $< -c -o $@ ${CPP_FLAGS}
 
 clean:
-	rm -f *.dll *.o *.so *.in *.out *.bin ${DATA_FOLDER}/* \
+	rm -f *.zip *.dll *.o *.so *.in *.out *.bin ${DATA_FOLDER}/* \
 		${USER_LIBRARY_PATH}/*.so ${USER_LIBRARY_PATH}/*.dll
 
