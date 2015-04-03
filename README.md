@@ -19,10 +19,11 @@ Also, you can add some make variables before make.
 USER_LIBRARY_PATH=tests make test
 ```
 
-### Mkae targets
+### Make targets
   - `all` will build the generator binary.
   - `test` will generate 10 test cases in `data` folder(the test case id and
 data folder is defined in `Makefile`).
+  - `zip` will zip the data into a zip package.
 
 ### Make variables
   - `CPP`: the compiler to build this library.
