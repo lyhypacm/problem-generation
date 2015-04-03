@@ -12,10 +12,11 @@ GENERATOR_DEPS = main.o ${USER_LIBRARY_PATH}/libgenerator.so \
 endif
 DATA_BEGIN ?= 1
 DATA_END ?= 10
-DATA_FOLDER ?= data
+DATA_FOLDER ?= ${USER_LIBRARY_PATH}/data
 all: ${TARGETS}
 
 test: generator.bin
+	mkdir -p ${DATA_FOLDER}; \
 	seed=$$RANDOM; \
 	i=${DATA_BEGIN}; \
 	for (( ; ; )); \
