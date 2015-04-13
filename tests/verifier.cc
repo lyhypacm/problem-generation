@@ -1,9 +1,7 @@
 #include "verifier.h"
 #include <cstdio>
 
-namespace verifier {
-
-bool verify_input(int case_id, FILE* input) {
+bool verifier::verify_input(int case_id, FILE* input) {
   int a, b;
   ASSERT(fscanf(input, "%d%d", &a, &b) == 2);
   ASSERT(fscanf(input, "%*d") == EOF);
@@ -12,9 +10,6 @@ bool verify_input(int case_id, FILE* input) {
   return true;
 }
 
-bool verify_output(int case_id, FILE* output) {
+bool verifier::verify_output(int case_id, FILE* output) {
   return true;
 }
-
-}
-
