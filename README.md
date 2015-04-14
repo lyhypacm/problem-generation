@@ -7,6 +7,8 @@ What you need to do is write the files mentioned below and compile them into .o 
   - `generator.cc`: a implmentation of generator.h to generate input files.
   - `verifier.cc`: a implementation of verifier.h to verify input/output files are legal or not.
   - `solver.cc`: a implementation of solver.h to generate output files.
+  - `*.in` and `*.out`: predefined data(e.g. sample input/output) and will copy them
+into data folder when generating data
 
 ### Usage
 Run the command line below to build your own generator.
