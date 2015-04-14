@@ -21,9 +21,7 @@ void init_engine(size_t seed) {
 
 // creates a new distribution with range [lower_bound, upper_bound)
 template<class _IntType = int>
-inline _LIBCPP_INLINE_VISIBILITY
-std::__bind<std::uniform_int_distribution<_IntType>, std::default_random_engine&>
-new_distribution(_IntType lower_bound, _IntType upper_bound) {
+auto new_distribution(_IntType lower_bound, _IntType upper_bound) {
   assert(is_engine_initialized);
   return std::bind(std::uniform_int_distribution<_IntType>(lower_bound, upper_bound), engine);
 }

@@ -1,6 +1,6 @@
 CPP ?= g++
-CPP_FLAGS ?= -O3 -Wall -std=gnu++0x -DONLINE_JUDGE -I.
-LD_FLAGS ?= -O3 -Wall -std=gnu++0x -DONLINE_JUDGE
+CPP_FLAGS ?= -O3 -Wall -std=gnu++1y -DONLINE_JUDGE -fPIC -I.
+LD_FLAGS ?= -O3 -Wall -std=gnu++1y -DONLINE_JUDGE -fPIC
 USER_LIBRARY_PATH ?= tests
 TARGETS = generator.bin
 ifeq ($(OS), Windows_NT)
@@ -16,26 +16,16 @@ DATA_FOLDER ?= ${USER_LIBRARY_PATH}/data
 all: ${TARGETS}
 
 test: generator.bin
-	@mkdir -p ${DATA_FOLDER}; \
-	seed=$$RANDOM; \
-	i=${DATA_BEGIN}; \
-	for (( ; ; )); \
-	do \
-		if [[ $$i -gt ${DATA_END} ]]; then break; fi; \
-		PATH=${USER_LIBRARY_PATH}:$${PATH} ./generator.bin $$seed $$i ${DATA_FOLDER}; \
-		exit_code=$$? \
-		seed=`expr $$seed + 1`; \
-		if [[ $$exit_code -eq 0 ]]; then i=`expr $$i + 1`; fi; \
-	done
+	./generate.sh "${USER_LIBRARY_PATH}" "${DATA_FOLDER}" "${DATA_BEGIN}" "${DATA_END}"
 
 zip:
 	zip data.zip ${DATA_FOLDER}/*.in ${DATA_FOLDER}/*.out
 
 lib%.so: %.o
-	${CPP} $< -o $@ -shared -fPIC ${CPP_FLAGS}
+	${CPP} $< -o $@ -shared ${CPP_FLAGS}
 
 lib%.dll: %.o
-	${CPP} $< -o $@ -shared -fPIC ${CPP_FLAGS}
+	${CPP} $< -o $@ -shared ${CPP_FLAGS}
 
 generator.bin: ${GENERATOR_DEPS}
 	${CPP} main.o -o $@ ${LD_FLAGS} -L${USER_LIBRARY_PATH} -lgenerator -lverifier -lsolver
