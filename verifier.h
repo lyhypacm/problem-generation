@@ -1,7 +1,7 @@
 #ifndef __CDOJ_VERIFIER_H__
 #define __CDOJ_VERIFIER_H__
 
-#include <cstdio>
+#include <bits/stdc++.h>
 
 #define ASSERT_2(x, line) { \
   if (!(x)) { \
