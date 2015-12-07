@@ -19,8 +19,7 @@ test: generator.bin
 	./generate.sh "${USER_LIBRARY_PATH}" "${DATA_FOLDER}" "${DATA_BEGIN}" "${DATA_END}"
 
 zip:
-	cd ${DATA_FOLDER}
-	zip data.zip *.in *.out
+	cd ${DATA_FOLDER}; zip data.zip *.in *.out
 
 lib%.so: %.o
 	${CPP} $< -o $@ -shared ${CPP_FLAGS}
