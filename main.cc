@@ -48,6 +48,7 @@ bool generate_verify_and_run_data(size_t seed, int case_id, const char* data_fol
       // wait
     }
     if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+      fprintf(stderr, "segment fault when running.\n");
       return false;
     }
   }
