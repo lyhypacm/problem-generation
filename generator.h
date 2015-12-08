@@ -14,7 +14,7 @@ void init_engine(size_t seed) {
   }
 }
 
-int nextInt(int lower_bound, int upper_bound) {
+int next_int(int lower_bound, int upper_bound) {
   assert(is_engine_initialized);
   return std::rand() % (upper_bound - lower_bound + 1) + lower_bound;
 }
