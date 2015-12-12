@@ -1,5 +1,4 @@
 #include "verifier.h"
-#include <cstdio>
 
 bool verifier::verify_input(int case_id, FILE* input) {
   int a, b;

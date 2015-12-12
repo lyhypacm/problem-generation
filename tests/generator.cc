@@ -1,8 +1,4 @@
 #include "generator.h"
-#include <random>
-#include <algorithm>
-#include <functional>
-#include <cstdio>
 
 int generator::generate(int case_id, size_t seed, FILE* input) {
   init_engine(seed);

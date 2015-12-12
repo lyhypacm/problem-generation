@@ -1,6 +1,6 @@
 CPP ?= g++
-CPP_FLAGS ?= -O3 -Wall -std=gnu++1y -DONLINE_JUDGE -fPIC -I.
-LD_FLAGS ?= -O3 -Wall -std=gnu++1y -DONLINE_JUDGE -fPIC
+CPP_FLAGS ?= -O2 -Wall -std=gnu++0x -DONLINE_JUDGE -fPIC -I.
+LD_FLAGS ?= -O2 -Wall -std=gnu++0x -DONLINE_JUDGE -fPIC
 USER_LIBRARY_PATH ?= tests
 TARGETS = generator.bin
 ifeq ($(OS), Windows_NT)

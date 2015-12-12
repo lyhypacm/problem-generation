@@ -1,5 +1,4 @@
 #include "solver.h"
-#include <cstdio>
 
 int solver::sol() {
   int a, b;
