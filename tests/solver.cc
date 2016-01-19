@@ -1,6 +1,6 @@
-#include "solver.h"
+#include <stdio.h>
 
-int solver::sol() {
+int main() {
   int a, b;
   scanf("%d%d", &a, &b);
   printf("%d\n", a + b);

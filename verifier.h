@@ -1,21 +1,14 @@
 #ifndef __CDOJ_VERIFIER_H__
 #define __CDOJ_VERIFIER_H__
 
-#include <bits/stdc++.h>
+#include "util.h"
 
-#define ASSERT_2(x, line) { \
-  if (!(x)) { \
-    fprintf(stderr, "Verification failed at %d\n", (int) (line)); \
-    return false; \
-  } \
-}
-#define ASSERT(x) ASSERT_2((x), __LINE__)
+void doVerification(int argc, char** argv);
 
-namespace verifier {
-
-bool verify_input(int case_id, FILE* input);
-bool verify_output(int case_id, FILE* output);
-
+int main(int argc, char** argv) {
+  registerValidation();
+  doVerification(argc, argv);
+  return 0;
 }
 
 #endif // __CDOJ_VERIFIER_H__

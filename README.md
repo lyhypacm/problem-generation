@@ -1,12 +1,14 @@
 This is a simple problem generation framework for ACM/ICPC competitions.
 
 ### Introduction
-What you need to do is write the files mentioned below and compile them into .o file.
+What you need to do is write the files mentioned below and compile them into binary files using GNU
+make toolchain.
 
 ### Files added
   - `generator.cc`: a implmentation of generator.h to generate input files.
-  - `verifier.cc`: a implementation of verifier.h to verify input/output files are legal or not.
-  - `solver.cc`: a implementation of solver.h to generate output files.
+  - `verifier.cc`: a implementation of verifier.h to verify input files are legal or not.
+  - `solver.cc`: a standard solution, with input file as `stdin` and output file as `stdout`.
+  - `checker.cc`: a implementation of checker.h to verify output files are legal or not.
   - `*.in` and `*.out`: predefined data(e.g. sample input/output) and will copy them
 into data folder when generating data
 
@@ -30,9 +32,9 @@ data folder is defined in `Makefile`).
 ### Make variables
   - `CPP`: the compiler to build this library.
   - `CPP_FLAGS`: the compile flag to compile source code.
-  - `LD_FLAGS`: the link flags to link user library and main library into runable file.
   - `USER_LIBRARY_PATH`: the path user library source codes located.
   - `DATA_BEGIN`: the begin test case id to be generated.
   - `DATA_END`: the end test case id(included) to be generated.
   - `DATA_FOLDER`: the location generated files located.
+  - `SRCS_FOLDER`: the extra solutions location.
 

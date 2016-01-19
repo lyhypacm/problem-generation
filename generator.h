@@ -1,26 +1,14 @@
 #ifndef __CDOJ_GENERATION_H__
 #define __CDOJ_GENERATION_H__
 
-#include <bits/stdc++.h>
+#include "util.h"
 
-namespace generator {
+void doGen(int argc, char** argv);
 
-bool is_engine_initialized = false;
-
-void init_engine(size_t seed) {
-  if (!is_engine_initialized) {
-    is_engine_initialized = true;
-    srand(seed);
-  }
-}
-
-int next_int(int lower_bound, int upper_bound) {
-  assert(is_engine_initialized);
-  return std::rand() % (upper_bound - lower_bound + 1) + lower_bound;
-}
-
-int generate(int case_id, size_t seed, FILE* input);
-
+int main(int argc, char** argv) {
+  registerGen(argc, argv, 1);
+  doGen(argc, argv);
+  return 0;
 }
 
 #endif // __CDOJ_GENERATION_H__
