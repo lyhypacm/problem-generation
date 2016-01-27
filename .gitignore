@@ -9,4 +9,10 @@
 /.settings
 *.log
 /*/data/
+*.compile.in
+*.compile.out
+*.compile.err
+/threading.in
+/threading.out
+/threading.err
 

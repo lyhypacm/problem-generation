@@ -14,27 +14,12 @@ into data folder when generating data
 
 ### Usage
 Run the command line below to build your own generator.
-```
-make test
-```
-
-Also, you can add some make variables before make.
-```
-USER_LIBRARY_PATH=tests make test
+```bash
+$ ./generator.py -p <problem folder name>
 ```
 
-### Make targets
-  - `all` will build the generator binary.
-  - `test` will generate 10 test cases in `data` folder(the test case id and
-data folder is defined in `Makefile`).
-  - `zip` will zip the data into a zip package.
-
-### Make variables
-  - `CPP`: the compiler to build this library.
-  - `CPP_FLAGS`: the compile flag to compile source code.
-  - `USER_LIBRARY_PATH`: the path user library source codes located.
-  - `DATA_BEGIN`: the begin test case id to be generated.
-  - `DATA_END`: the end test case id(included) to be generated.
-  - `DATA_FOLDER`: the location generated files located.
-  - `SRCS_FOLDER`: the extra solutions location.
-
+### Generator command line arguments
+You can find the command line arguments description by
+```bash
+$ ./generator.py -h
+```
