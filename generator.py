@@ -3,6 +3,7 @@
 import sys
 import os
 import glob
+import shutil
 import threading
 import traceback
 import subprocess
@@ -48,6 +49,21 @@ def CheckProblemFolderStructure(problem_folder):
         print 'Checker file not found.'
         sys.exit(1)
 
+    data_files = { }
+    for root, dirs, files in os.walk(os.path.join(problem_folder, 'predata')):
+        for file_name in files:
+            if file_name.endswith('.in') or file_name.endswith('.out'):
+                data = file_name[ : -3] if file_name.endswith('.in') else file_name[ : -4]
+                if data in data_files:
+                    data_files[data] = data_files[data] + 1
+                else:
+                    data_files[data] = 1
+    for key in data_files:
+        value = data_files[key]
+        if value != 2:
+            print 'imcomplete data set #%s' % (key)
+            sys.exit(1)
+
     data_folder = os.path.join(problem_folder, "data")
     if not os.path.exists(data_folder) or not os.path.isdir(data_folder):
         try:
@@ -63,7 +79,8 @@ def CheckProblemFolderStructure(problem_folder):
             for file_name in files:
                 if file_name.endswith('.cc'):
                     solutions.append(os.path.join(solutions_folder, file_name))
-    return generator_file, solver_file, verifier_file, checker_file, data_folder, solutions
+    return generator_file, solver_file, verifier_file, checker_file, \
+        data_files, data_folder, solutions
 
 
 class Timer(threading.Thread):
@@ -146,6 +163,28 @@ def FileDiff(output_data_file, user_data_file):
     return RunInSandBox(['diff', output_data_file, user_data_file])[0] # exit_code
 
 
+def CheckSolutions(solution_binaries, input_data_file, output_data_file):
+    user_data_file = os.path.join('.', 'user.out')
+    for solution_binary in solution_binaries:
+        if solution_binary.endswith('ac.cc.bin'):
+            assert not RunInSandBox([solution_binary],
+                                    stdin = input_data_file,
+                                    stdout = user_data_file,
+                                    timeout = args.timeout)[0]
+            assert not FileDiff(output_data_file, user_data_file)
+        elif solution_binary.endswith('wa.cc.bin'):
+            assert not RunInSandBox([solution_binary],
+                                    stdin = input_data_file,
+                                    stdout = user_data_file,
+                                    timeout = args.timeout)[0]
+            assert FileDiff(output_data_file, user_data_file)
+        elif solution_binary.endswith('tle.cc.bin'):
+            assert RunInSandBox([solution_binary],
+                                stdin = input_data_file,
+                                stdout = user_data_file,
+                                timeout = args.timeout)[0] == 0x8F
+
+
 if __name__ == "__main__":
     args = PrepareCommandLineArguments(sys.argv[1 : ])
 
@@ -161,7 +200,7 @@ if __name__ == "__main__":
 
     generator_file, solver_file, \
     verifier_file, checker_file, \
-    data_folder, solutions = CheckProblemFolderStructure(args.problem)
+    data_files, data_folder, solutions = CheckProblemFolderStructure(args.problem)
     solution_binaries = []
 
     print 'Compile components...'
@@ -173,43 +212,29 @@ if __name__ == "__main__":
         solution_binaries.append(Compile(args.cpp, args.cpp_flags, solution))
     print 'Completed.'
 
+    for data in data_files:
+        print 'Check pre-generated data #%s...' % (data)
+        input_data_file = os.path.join(args.problem, 'predata/%s.in' % (data))
+        output_data_file = os.path.join(args.problem, 'predata/%s.out' % (data))
+        CheckSolutions(solution_binaries, input_data_file, output_data_file)
+        shutil.copyfile(input_data_file, os.path.join(args.problem, 'data/%s.in' % (data)))
+        shutil.copyfile(output_data_file, os.path.join(args.problem, 'data/%s.out' % (data)))
+
     for case in xrange(args.begin_test_case, args.end_test_case + 1):
         print 'Generating case #%04d...' % (case)
         input_data_file = os.path.join(data_folder, '%04d.in' % (case))
         output_data_file = os.path.join(data_folder, '%04d.out' % (case))
-        user_data_file = os.path.join('.', '%04d.out' % (case))
-        try:
-            # generate data
-            assert not RunInSandBox([generator_binary, '--case=%d' % (case)],
-                                    stdout = input_data_file)[0] # exit_code
-            # verifier input data
-            assert not RunInSandBox([verifier_binary],
-                                    stdin = input_data_file)[0]
-            # use solver to generate output data
-            assert not RunInSandBox([solver_binary],
-                                    stdin = input_data_file,
-                                    stdout = output_data_file,
-                                    timeout = args.timeout)[0]
-            # check solutions
-            for solution_binary in solution_binaries:
-                if solution_binary.endswith('ac.cc.bin'):
-                    assert not RunInSandBox([solution_binary],
-                                            stdin = input_data_file,
-                                            stdout = user_data_file,
-                                            timeout = args.timeout)[0]
-                    assert not FileDiff(output_data_file, user_data_file)
-                elif solution_binary.endswith('wa.cc.bin'):
-                    assert not RunInSandBox([solution_binary],
-                                            stdin = input_data_file,
-                                            stdout = user_data_file,
-                                            timeout = args.timeout)[0]
-                    assert FileDiff(output_data_file, user_data_file)
-                elif solution_binary.endswith('tle.cc.bin'):
-                    assert RunInSandBox([solution_binary],
-                                        stdin = input_data_file,
-                                        stdout = user_data_file,
-                                        timeout = args.timeout)[0] == 0x8F
-        except:
-            # retry
-            traceback.print_exc(file = sys.stderr)
-            sys.exit(1)
+
+        # generate data
+        assert not RunInSandBox([generator_binary, '--case=%d' % (case)],
+                                stdout = input_data_file)[0] # exit_code
+        # verifier input data
+        assert not RunInSandBox([verifier_binary],
+                                stdin = input_data_file)[0]
+        # use solver to generate output data
+        assert not RunInSandBox([solver_binary],
+                                stdin = input_data_file,
+                                stdout = output_data_file,
+                                timeout = args.timeout)[0]
+        CheckSolutions(solution_binaries, input_data_file, output_data_file)
+

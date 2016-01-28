@@ -1,8 +1,8 @@
 This is a simple problem generation framework for ACM/ICPC competitions.
 
 ### Introduction
-What you need to do is write the files mentioned below and compile them into binary files using GNU
-make toolchain.
+What you need to do is write the files mentioned below and compile them into binary files using
+problem-generator-cli.
 
 ### Files added
   - `generator.cc`: a implmentation of generator.h to generate input files.
